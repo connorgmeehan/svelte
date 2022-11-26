@@ -135,6 +135,8 @@ export default function compile(source: string, options: CompileOptions = {}) {
 
 	const result = options.generate === false
 		? null
+		: typeof(options.generate) === "function"
+			? options.generate(component, options)
 		: options.generate === 'ssr'
 			? render_ssr(component, options)
 			: render_dom(component, options);

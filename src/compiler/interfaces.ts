@@ -1,5 +1,6 @@
 import { AssignmentExpression, Node, Program } from 'estree';
 import { SourceMap } from 'magic-string';
+import Component from './compile/Component';
 
 interface BaseNode {
 	start: number;
@@ -158,11 +159,16 @@ export type CssHashGetter = (args: {
 	hash: (input: string) => string;
 }) => string;
 
+export type GeneratorFunction = (
+	component: Component,
+	options: CompileOptions
+) => {js: Node[]; css: CssResult};
+
 export interface CompileOptions {
 	format?: ModuleFormat;
 	name?: string;
 	filename?: string;
-	generate?: 'dom' | 'ssr' | false;
+	generate?: 'dom' | 'ssr' | false | GeneratorFunction;
 	errorMode?: 'throw' | 'warn';
 	varsReport?: 'full' | 'strict' | false;
 
